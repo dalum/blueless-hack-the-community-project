@@ -18,17 +18,6 @@ import { insertRecorder } from './recorder.js';
 Template.body.onCreated(function bodyOnCreated() {
     Meteor.subscribe('states');
     greet();
-    insertMessage("Test.");
-    insertOption("Give me options", "", function (msg) {
-        // clearOptions();
-        // clearMessages();
-        // insertRecorder();
-    });
-    insertOption("I don't know", "", function (msg) {
-        clearOptions();
-        clearMessages();
-        insertRecorder();
-    });
 });
 
 Template.body.helpers({

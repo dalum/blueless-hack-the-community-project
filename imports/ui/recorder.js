@@ -54,7 +54,7 @@ Template.recorder.helpers({
 });
 
 Template.recorder.events({
-    'click button.record'(event, instance) {
+    'click li'(event, instance) {
         console.log("record press");
         if (instance.recorder) {
             if (instance.recorder.isRecording()) {

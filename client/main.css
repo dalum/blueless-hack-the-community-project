@@ -1,37 +1,67 @@
 body {
     background: #303030;
-    color: #EEE;
+    color: #e7e7e7;
     padding: 10px;
     font-family: 'Oswald', 'Berlin Sans', sans-serif;
-    font-size: 16pt;
+    font-size: 200%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
 }
 
-ul.messages {
+.fade-in {
+    opacity: 1;
+    animation-name: fadeInOpacity;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-in;
+    animation-duration: 0.1s;
+}
+
+@keyframes fadeInOpacity {
+    0% {
+	opacity: 0;
+    }
+    100% {
+	opacity: 1;
+    }
+}
+
+ul.messages, ul.recorders, ul.options {
+    min-width: 800px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: left;
 }
 
-ul.messages li {
+ul.messages li, ul.recorders li, ul.options li {
+    display: inline-block;
+    width: auto;
     list-style-type: none;
-    background: #666;
     border-radius: 10px;
     padding: 20px;
     margin: 10px;
+    transition: width 2s;
 }
 
-ul.recorders button {
+ul.messages li {
     background: none;
-    border: none;
-    border-radius: 10px;
-    margin: 10px;
 }
 
-ul.recorders button:hover {
+ul.options li {
+    background: #696;
+}
+
+ul.options li:hover {
+    cursor: pointer;
+}
+
+ul.recorders li {
+    display: inline-block;
+    background: none;
+}
+
+ul.recorders li:hover {
     cursor: pointer;
 }

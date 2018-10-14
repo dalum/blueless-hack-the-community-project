@@ -14,7 +14,7 @@ export function clearOptions() {
 }
 
 Template.option.events({
-    'click button'(event, instance) {
+    'click li'(event, instance) {
         instance.data.fn(instance.data.val);
     }
 });
