@@ -35,5 +35,4 @@ Template.body.helpers({
     }
 });
 
-
 import './state.js';

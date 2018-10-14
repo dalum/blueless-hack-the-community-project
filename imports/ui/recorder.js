@@ -4,6 +4,9 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import { Messages } from '../api/messages.js';
 import { Recorders } from '../api/recorders.js';
 
+import { clearOptions } from './options.js';
+import { clearMessages, queryEmotion } from './messages.js';
+
 var APISECRET = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6ZmFsc2UsImVtYWlsIjoiaGFja2F0aG9uQHdvbmRlcnRlY2guY29tLmNuIiwiZXhwIjoxNjk3MDc4NTI1LCJ1c2VyaWQiOiJjNjBjYzcxNy02NDczLTRkMDctOWU3Yi02NWJlNTM5MDFiZjQifQ.LpZXDpIqOoZZb4537xKVwvjvadiAf1AjRVTvWQBSMog";
 
 export function insertRecorder() {
@@ -19,6 +22,7 @@ Template.recorder.onCreated(function recorderOnCreated() {
     this.recorder = null;
     this.available = new ReactiveVar(false);
     this.recording = new ReactiveVar(false);
+    this.waiting = new ReactiveVar(false);
     var instance = this;
 
     if (navigator.mediaDevices.getUserMedia) {
@@ -50,6 +54,9 @@ Template.recorder.helpers({
     },
     isrecording() {
         return Template.instance().recording.get();
+    },
+    iswaiting() {
+        return Template.instance().waiting.get();
     }
 });
 
@@ -61,7 +68,7 @@ Template.recorder.events({
                 instance.recorder.finishRecording();
                 console.log("recorder stopped");
                 instance.recording.set(false);
-            } else {
+            } else if (!instance.waiting.get()) {
                 instance.recorder.onComplete = function(recorder, blob) {
                     var formData = new FormData();
                     formData.set('file', blob, 'file.wav');
@@ -75,19 +82,23 @@ Template.recorder.events({
                             var json = JSON.parse(this.responseText);
                             if (!json.error) {
                                 var emotion = json.venus.group11_primary + " and " + json.venus.group11_secondary;
-                                Messages.insert({
-                                    text: `I think you are feeling ${emotion} now? Is that how you feel?`
-                                });
+                                clearOptions();
+                                clearMessages();
+                                clearRecorders();
+                                queryEmotion(emotion);
                             } else {
                                 console.log(`error: ${json.error}`);
                             }
+                            instance.waiting.set(false);
                         } else if (this.status == 500) {
                             console.log(`error: ${this.response}`);
+                            instance.waiting.set(false);
                         }
                     };
 
                     console.log("sending request ...");
                     xhr.send(formData);
+                    instance.waiting.set(true);
                 };
 
                 instance.recorder.startRecording();

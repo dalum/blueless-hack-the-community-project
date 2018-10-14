@@ -1,6 +1,6 @@
 body {
     background: #303030;
-    color: #e7e7e7;
+    color: #e0e0e0;
     padding: 10px;
     font-family: 'Oswald', 'Berlin Sans', sans-serif;
     font-size: 200%;
@@ -28,28 +28,49 @@ body {
 }
 
 ul.messages, ul.recorders, ul.options {
-    min-width: 800px;
+    width: 600px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: left;
 }
 
+ul.recorders {
+   align-items: center;
+}
+
 ul.messages li, ul.recorders li, ul.options li {
-    display: inline-block;
-    width: auto;
-    list-style-type: none;
-    border-radius: 10px;
+    border-radius: 20px;
     padding: 20px;
     margin: 10px;
-    transition: width 2s;
 }
 
 ul.messages li {
+    display: inline-block;
+    border: 3px solid #111;
     background: none;
 }
 
 ul.options li {
+    display: inline-block;
+    background: #666;
+}
+
+ul.options input {
+    display: block;
+    width: 530px;
+    font-size: 100%;
+    background: none;
+    color: #e0e0e0;
+    border: 2px #111 solid;
+    border-radius: 10px;
+}
+
+ul.options li.positive {
+    background: #669;
+}
+
+ul.options li.negative {
     background: #696;
 }
 
